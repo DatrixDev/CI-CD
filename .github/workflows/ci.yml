@@ -41,3 +41,13 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cicd-spring:latest
+  test-self-hosted:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Test VPS runner
+        run: |
+          echo "GitHub dang chay lenh tren VPS"
+          whoami
+          hostname
+          docker ps
