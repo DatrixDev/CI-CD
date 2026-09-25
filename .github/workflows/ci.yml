@@ -41,13 +41,23 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cicd-spring:latest
-  test-self-hosted:
-    runs-on: self-hosted
+  deploy:
     needs: build
+    runs-on: self-hosted
+
     steps:
-      - name: Test VPS runner
+      - name: Deploy to VPS
         run: |
-          echo "GitHub dang chay lenh tren VPS"
-          whoami
-          hostname
-          docker ps
+          cd /home/datrixdev/cicd-deploy
+          docker compose pull
+          docker compose up -d
+#  test-self-hosted:
+#    runs-on: self-hosted
+#    needs: build
+#    steps:
+#      - name: Test VPS runner
+#        run: |
+#          echo "GitHub dang chay lenh tren VPS"
+#          whoami
+#          hostname
+#          docker ps

@@ -10,7 +10,7 @@ public class CicdController {
     public Map<String, Object> cicd() {
         return Map.of(
                 "status",200,
-                "message","BỤI DJ"
+                "message", "Datcute"
         );
     }
 
