@@ -52,8 +52,10 @@ jobs:
       - name: Deploy to VPS
         run: |
           cd /home/datrixdev/cicd-deploy
-          docker compose pull
-          docker compose up -d
+          IMAGE_TAG=${{ github.sha }} docker compose pull
+          IMAGE_TAG=${{ github.sha }} docker compose up -d
+#          docker compose pull
+#          docker compose up -d
       - name: Health check
         run: |
           sleep 10
