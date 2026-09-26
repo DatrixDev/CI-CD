@@ -63,9 +63,25 @@ jobs:
 #          docker compose pull
 #          docker compose up -d
       - name: Health check
+        id: healthcheck
+        continue-on-error: true
         run: |
           sleep 10
           curl --fail http://localhost:8080/ci-cd
+      - name: Rollback if health check failed
+        if: steps.healthcheck.outcome == 'failure'
+        run: |
+          cd /home/datrixdev/cicd-deploy
+
+          PREVIOUS_TAG=$(cat previous-tag.txt)
+
+          echo "Health check failed"
+          echo "Rolling back to: $PREVIOUS_TAG"
+
+          IMAGE_TAG=$PREVIOUS_TAG docker compose pull
+          IMAGE_TAG=$PREVIOUS_TAG docker compose up -d
+
+          exit 1
 #  test-self-hosted:
 #    runs-on: self-hosted
 #    needs: build
