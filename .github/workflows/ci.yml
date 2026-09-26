@@ -52,6 +52,12 @@ jobs:
       - name: Deploy to VPS
         run: |
           cd /home/datrixdev/cicd-deploy
+          
+          docker inspect cicd-app \
+          --format='{{.Config.Image}}' \
+          | cut -d ':' -f 2 > previous-tag.txt
+          echo "Previous version:"
+          cat previous-tag.txt
           IMAGE_TAG=${{ github.sha }} docker compose pull
           IMAGE_TAG=${{ github.sha }} docker compose up -d
 #          docker compose pull
