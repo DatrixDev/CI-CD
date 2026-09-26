@@ -41,6 +41,7 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cicd-spring:latest
+                ${{ secrets.DOCKERHUB_USERNAME }}/cicd-spring:${{ github.sha }}
   deploy:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
