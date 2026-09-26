@@ -49,6 +49,13 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Create production env
+        env:
+          PROD_ENV: ${{ secrets.PROD_ENV }}
+        run: |
+          cd /home/datrixdev/cicd-deploy
+          printf '%s\n' "$PROD_ENV" > .env
+
       - name: Deploy to VPS
         run: |
           cd /home/datrixdev/cicd-deploy
